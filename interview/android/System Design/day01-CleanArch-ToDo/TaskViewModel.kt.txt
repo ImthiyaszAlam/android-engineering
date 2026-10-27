@@ -1,0 +1,11 @@
+// TaskViewModel.kt
+class TaskViewModel(
+    private val addTaskUseCase: AddTaskUseCase,
+    private val getAllTasksUseCase: GetAllTasksUseCase
+) : ViewModel() {
+    private val _tasks = MutableStateFlow<List<Task>>(emptyList())
+    val tasks: StateFlow<List<Task>> = _tasks
+
+    fun loadTasks() { /* ... */ }
+    fun addTask(task: Task) { /* ... */ }
+}

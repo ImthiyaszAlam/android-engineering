@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">DrillAR</string>
+    <string name="viewDrillDetails">View Drill Details</string>
+    <string name="startArBtn">Start AR</string>
+</resources>

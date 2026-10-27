@@ -1,0 +1,9 @@
+dependencies {
+    val coroutines_version = "1.7.3"
+
+    // Coroutines Core (Main library)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version")
+
+    // Coroutines for Android (Main Dispatcher, UI thread, etc.)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version")
+}

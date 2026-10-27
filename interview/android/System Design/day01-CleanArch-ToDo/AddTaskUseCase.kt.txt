@@ -1,0 +1,4 @@
+// AddTaskUseCase.kt
+class AddTaskUseCase(private val repo: TaskRepository) {
+    suspend operator fun invoke(task: Task): Result<Unit> = repo.addTask(task)
+}
