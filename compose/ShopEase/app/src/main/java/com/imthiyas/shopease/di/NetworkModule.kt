@@ -14,30 +14,27 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-
 object NetworkModule {
 
-    @Provides
-    @Singleton
-    fun provideJson(): Json {
-        return Json {
-            ignoreUnknownKeys = true
-        }
-    }
-
 
     @Provides
     @Singleton
-    fun provideRetrofit(json: Json): Retrofit {
+    fun provideRetrofit(): Retrofit {
+
+
         return Retrofit.Builder()
             .baseUrl("https://dummyjson.com/")
-            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+            .addConverterFactory(
+                Json.asConverterFactory("application/json".toMediaType())
+            )
             .build()
+
     }
+
 
     @Provides
     @Singleton
-    fun provideProductApi(retrofit: Retrofit): ProductApi {
+    fun provideNetworkApi(retrofit: Retrofit): ProductApi {
         return retrofit.create<ProductApi>(ProductApi::class.java)
     }
 }
