@@ -16,6 +16,9 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
+    val json=Json {
+        ignoreUnknownKeys=true
+    }
 
     @Provides
     @Singleton
@@ -25,7 +28,7 @@ object NetworkModule {
         return Retrofit.Builder()
             .baseUrl("https://dummyjson.com/")
             .addConverterFactory(
-                Json.asConverterFactory("application/json".toMediaType())
+                json.asConverterFactory("application/json".toMediaType())
             )
             .build()
 

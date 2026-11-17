@@ -1,3 +1,10 @@
 package com.imthiyas.shopease.data.remote.models
 
-data class Category()
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class Category(
+    val slug: String,
+    val name: String,
+    val url: String,
+)

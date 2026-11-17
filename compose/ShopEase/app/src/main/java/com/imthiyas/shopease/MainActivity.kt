@@ -23,7 +23,7 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
 
     @Inject
-    private lateinit var productApi: ProductApi
+    lateinit var productApi: ProductApi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +38,16 @@ class MainActivity : ComponentActivity() {
             } catch (e: Exception) {
 
             }
+        }
+
+        lifecycleScope.launch {
+            val categories = productApi.getCategories()
+            Log.d("API_TEST", "Categories: ${categories.size}")
+        }
+
+        lifecycleScope.launch {
+            val search = productApi.search("phone")
+            Log.d("API_TEST","Size: ${search.products.size}")
         }
 
 
