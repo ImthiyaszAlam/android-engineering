@@ -9,7 +9,14 @@ interface ProductApi {
 
     @GET("/products")
     suspend fun getProducts(
+        @Query("total") total: Int,
         @Query("limit") limit: Int = 20,
         @Query("skip") skip: Int = 0
     ): ProductResponse
+
+
+    @GET("/category")
+    suspend fun getCategories(
+
+    )
 }
