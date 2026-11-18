@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.imthiyas.shopease.ui.screens.components.DealBanner
 import com.imthiyas.shopease.ui.screens.components.HomeHeader
 import com.imthiyas.shopease.ui.screens.components.SearchBar
 
@@ -41,6 +42,14 @@ fun HomeScreen(
                 query = uiState.searchQuery,
                 onQueryChange = { viewModel.onSearchQueryChange(it) }
             )
+
+            val bestDeal = uiState.products.maxByOrNull {
+                it.discountPercentage
+            }
+
+            bestDeal?.let {
+                DealBanner(product = it)
+            }
 
         }
 
