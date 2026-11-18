@@ -59,6 +59,10 @@ class HomeViewModel @Inject constructor(private val repository: ProductRepositor
         }
     }
 
+    fun retry() {
+        loadHomeData()
+    }
+
     fun loadProducts() {
         viewModelScope.launch() {
 
