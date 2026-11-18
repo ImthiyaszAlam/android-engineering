@@ -63,6 +63,14 @@ class HomeViewModel @Inject constructor(private val repository: ProductRepositor
         loadHomeData()
     }
 
+    fun onSearchQueryChange(query: String) {
+        _uiState.update {
+            it.copy(
+                searchQuery = query
+            )
+        }
+    }
+
     fun loadProducts() {
         viewModelScope.launch() {
 

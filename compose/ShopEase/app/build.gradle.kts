@@ -62,6 +62,7 @@ dependencies {
 // Hilt
     implementation("com.google.dagger:hilt-android:2.60.1")
     ksp("com.google.dagger:hilt-compiler:2.60.1")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
 // Retrofit
     implementation("com.squareup.retrofit2:retrofit:3.0.0")
@@ -72,5 +73,7 @@ dependencies {
 
 // OkHttp
     implementation("com.squareup.okhttp3:okhttp:5.3.0")
-    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+
+
+    implementation("androidx.compose.material:material-icons-extended")
 }
