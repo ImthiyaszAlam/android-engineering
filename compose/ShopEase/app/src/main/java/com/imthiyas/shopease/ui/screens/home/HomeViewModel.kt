@@ -28,8 +28,35 @@ class HomeViewModel @Inject constructor(private val repository: ProductRepositor
     }
 
     fun loadHomeData() {
-        loadProducts()
-        loadCategory()
+        /* loadProducts()
+         loadCategory()*/
+
+        viewModelScope.launch {
+            _uiState.update {
+                it.copy(
+                    isLoading = true
+                )
+            }
+
+            try {
+
+
+                val products = repository.getProducts(total, limit, skip)
+                val categories = repository.getCategories()
+
+                _uiState.update {
+                    it.copy(isLoading = false, products = products, categories = categories)
+                }
+            } catch (e: Exception) {
+                _uiState.update {
+                    it.copy(
+                        isLoading = false,
+                        error = e.message ?: "Something went wrong!"
+                    )
+                }
+            }
+
+        }
     }
 
     fun loadProducts() {
