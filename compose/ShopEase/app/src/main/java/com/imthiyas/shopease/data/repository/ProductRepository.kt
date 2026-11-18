@@ -10,8 +10,8 @@ class ProductRepository @Inject constructor(
     private val productApi: ProductApi
 ) {
 
-    suspend fun getProducts(total: Int, limit: Int, skip: Int): List<Product> {
-        return productApi.getProducts(total, limit, skip).products
+    suspend fun getProducts(): List<Product> {
+        return productApi.getProducts().products
     }
 
     suspend fun getCategories(): List<Category> {

@@ -41,7 +41,7 @@ class HomeViewModel @Inject constructor(private val repository: ProductRepositor
             try {
 
 
-                val products = repository.getProducts(total, limit, skip)
+                val products = repository.getProducts()
                 val categories = repository.getCategories()
 
                 _uiState.update {
@@ -66,7 +66,7 @@ class HomeViewModel @Inject constructor(private val repository: ProductRepositor
                 it.copy(isLoading = true)
             }
             try {
-                val products = repository.getProducts(total, limit, skip)
+                val products = repository.getProducts()
                 _uiState.update {
                     it.copy(
                         isLoading = false,
