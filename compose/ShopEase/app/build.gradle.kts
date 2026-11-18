@@ -72,4 +72,5 @@ dependencies {
 
 // OkHttp
     implementation("com.squareup.okhttp3:okhttp:5.3.0")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 }

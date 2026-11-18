@@ -9,7 +9,7 @@ data class Product(
     val description: String,
     val category: String,
     val brand: String?,
-    val price: String,
-    val discountPercentage: String,
-    val rating: String,
+    val price: Double,
+    val discountPercentage: Double,
+    val rating: Double,
 )
