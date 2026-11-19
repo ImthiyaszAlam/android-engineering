@@ -19,6 +19,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.imthiyas.shopease.ui.screens.components.CategorySection
 import com.imthiyas.shopease.ui.screens.components.DealBanner
 import com.imthiyas.shopease.ui.screens.components.HomeHeader
+import com.imthiyas.shopease.ui.screens.components.ProductGrid
 import com.imthiyas.shopease.ui.screens.components.SearchBar
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -57,6 +58,8 @@ fun HomeScreen(
                 selectedCategory = uiState.selectedCategory,
                 onCategorySelected = viewModel::onCategorySelected
             )
+
+            ProductGrid(products = uiState.products)
 
         }
 
