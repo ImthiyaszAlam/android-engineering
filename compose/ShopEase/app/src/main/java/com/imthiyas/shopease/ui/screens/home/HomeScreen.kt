@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.imthiyas.shopease.ui.screens.components.CategorySection
 import com.imthiyas.shopease.ui.screens.components.DealBanner
 import com.imthiyas.shopease.ui.screens.components.HomeHeader
 import com.imthiyas.shopease.ui.screens.components.SearchBar
@@ -50,6 +51,12 @@ fun HomeScreen(
             bestDeal?.let {
                 DealBanner(product = it)
             }
+
+            CategorySection(
+                categories = uiState.categories,
+                selectedCategory = uiState.selectedCategory,
+                onCategorySelected = viewModel::onCategorySelected
+            )
 
         }
 

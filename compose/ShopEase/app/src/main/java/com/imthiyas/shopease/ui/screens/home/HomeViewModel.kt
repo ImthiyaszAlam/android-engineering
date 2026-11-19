@@ -19,9 +19,6 @@ class HomeViewModel @Inject constructor(private val repository: ProductRepositor
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
-    val total = 20
-    val skip = 0;
-    val limit = 10
 
     init {
         loadHomeData()
@@ -69,6 +66,15 @@ class HomeViewModel @Inject constructor(private val repository: ProductRepositor
                 searchQuery = query
             )
         }
+    }
+
+    fun onCategorySelected(category: String) {
+        _uiState.update {
+            it.copy(
+                selectedCategory = category
+            )
+        }
+
     }
 
     fun loadProducts() {
