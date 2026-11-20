@@ -29,6 +29,7 @@ fun HomeScreen(
 ) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val filteredProducts by viewModel.filteredProducts.collectAsStateWithLifecycle(emptyList())
 
 
     Scaffold(topBar = {
@@ -59,42 +60,12 @@ fun HomeScreen(
                 onCategorySelected = viewModel::onCategorySelected
             )
 
-            ProductGrid(products = viewModel.getFilteredProducts())
+            ProductGrid(products = filteredProducts)
 
         }
 
     }
 
-    /*   if (uiState.isLoading) {
-
-           Column(
-               verticalArrangement = Arrangement.Center,
-               horizontalAlignment = Alignment.CenterHorizontally
-           ) {
-               CircularProgressIndicator()
-           }
-
-       } else if (uiState.error != null) {
-           Column(
-               verticalArrangement = Arrangement.Center,
-               horizontalAlignment = Alignment.CenterHorizontally
-           )
-           {
-               Text(text = uiState.error ?: "Something went wrong !")
-               Button(onClick = { viewModel.retry() }) {
-                   Text(text = "Retry")
-               }
-           }
-
-       } else if (uiState.products.isEmpty()) {
-           Text(text = "No products found")
-       } else {
-           LazyColumn() {
-               items(uiState.products) { product ->
-                   Text(text = product.title)
-               }
-           }
-       }*/
 
 
 }

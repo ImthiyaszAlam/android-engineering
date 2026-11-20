@@ -1,5 +1,6 @@
 package com.imthiyas.shopease.ui.screens.home
 
+import androidx.compose.ui.graphics.Path.Companion.combine
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.imthiyas.shopease.data.remote.models.Product
@@ -10,6 +11,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,6 +24,32 @@ class HomeViewModel @Inject constructor(private val repository: ProductRepositor
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
+    private val searchQuery = MutableStateFlow("")
+
+    val filteredProducts = combine(
+        uiState,
+        searchQuery.debounce(300)
+
+    ) { state, query ->
+        state.copy(
+            searchQuery = query
+        )
+
+    }.map { state ->
+        state.products.filter { product ->
+            val matchesCategory = state.selectedCategory == "all" ||
+                    product.category == state.selectedCategory
+
+            val matchesSearch =
+                product.title.contains(
+                    state.searchQuery,
+                    ignoreCase = true
+                )
+            matchesCategory && matchesSearch
+
+        }
+
+    }
 
     init {
         loadHomeData()
@@ -67,6 +97,7 @@ class HomeViewModel @Inject constructor(private val repository: ProductRepositor
                 searchQuery = query
             )
         }
+        searchQuery.value = query
     }
 
     fun getFilteredProducts(): List<Product> {
