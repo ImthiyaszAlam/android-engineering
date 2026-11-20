@@ -2,6 +2,7 @@ package com.imthiyas.shopease.ui.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.imthiyas.shopease.data.remote.models.Product
 import com.imthiyas.shopease.data.repository.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.scopes.ViewModelScoped
@@ -65,6 +66,23 @@ class HomeViewModel @Inject constructor(private val repository: ProductRepositor
             it.copy(
                 searchQuery = query
             )
+        }
+    }
+
+    fun getFilteredProducts(): List<Product> {
+        val state = _uiState.value
+
+        return state.products.filter { product ->
+            val matchesCategory = state.selectedCategory == "all" ||
+                    product.category == state.selectedCategory
+
+            val matchesSearch = product.title.contains(
+                state.searchQuery,
+                ignoreCase = true
+            )
+
+            matchesCategory && matchesSearch
+
         }
     }
 

@@ -59,7 +59,7 @@ fun HomeScreen(
                 onCategorySelected = viewModel::onCategorySelected
             )
 
-            ProductGrid(products = uiState.products)
+            ProductGrid(products = viewModel.getFilteredProducts())
 
         }
 
