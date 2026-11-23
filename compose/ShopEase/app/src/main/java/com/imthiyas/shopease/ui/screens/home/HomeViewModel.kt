@@ -1,6 +1,7 @@
 package com.imthiyas.shopease.ui.screens.home
 
 import androidx.compose.ui.graphics.Path.Companion.combine
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.imthiyas.shopease.data.remote.models.Product
@@ -19,9 +20,18 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val repository: ProductRepository) : ViewModel() {
+class HomeViewModel @Inject constructor(
+    private val repository: ProductRepository,
+    val savedStateHandle: SavedStateHandle
+) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(HomeUiState())
+    private val _uiState = MutableStateFlow(
+        HomeUiState(
+            searchQuery = savedStateHandle["searchQuery"] ?: "",
+            selectedCategory = savedStateHandle["selectedCategory"] ?: "all"
+
+        )
+    )
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
     private val searchQuery = MutableStateFlow("")
@@ -92,6 +102,8 @@ class HomeViewModel @Inject constructor(private val repository: ProductRepositor
     }
 
     fun onSearchQueryChange(query: String) {
+        savedStateHandle["searchQuery"] = query
+
         _uiState.update {
             it.copy(
                 searchQuery = query
@@ -118,6 +130,7 @@ class HomeViewModel @Inject constructor(private val repository: ProductRepositor
     }
 
     fun onCategorySelected(category: String) {
+        savedStateHandle["selectedCategory"] = category
         _uiState.update {
             it.copy(
                 selectedCategory = category
