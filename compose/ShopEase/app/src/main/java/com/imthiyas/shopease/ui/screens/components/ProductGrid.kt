@@ -13,7 +13,9 @@ import com.imthiyas.shopease.data.remote.models.Product
 @Composable
 fun ProductGrid(
     products: List<Product>,
-    modifier: Modifier
+    favorites: Set<Int>,
+    onFavoriteClick: (Int) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -23,7 +25,12 @@ fun ProductGrid(
 
     ) {
         items(products) { product ->
-            ProductCard(product = product)
+            ProductCard(
+                product = product,
+                isFavorite = product.id in favorites,
+                onFavoriteClick = {
+                    onFavoriteClick(product.id)
+                })
         }
     }
 

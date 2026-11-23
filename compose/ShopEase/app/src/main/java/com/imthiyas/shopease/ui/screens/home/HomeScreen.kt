@@ -1,7 +1,5 @@
 package com.imthiyas.shopease.ui.screens.home
 
-import android.graphics.Paint
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,11 +10,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -28,15 +23,19 @@ import com.imthiyas.shopease.ui.screens.components.DealBanner
 import com.imthiyas.shopease.ui.screens.components.HomeHeader
 import com.imthiyas.shopease.ui.screens.components.ProductGrid
 import com.imthiyas.shopease.ui.screens.components.SearchBar
+import com.imthiyas.shopease.ui.vm.FavoriteViewModel
+import com.imthiyas.shopease.ui.vm.HomeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+    fvm: FavoriteViewModel = hiltViewModel()
 ) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val filteredProducts by viewModel.filteredProducts.collectAsStateWithLifecycle(emptyList())
+    val favorites by fvm.favourites.collectAsStateWithLifecycle()
 
 
     Scaffold(topBar = {
@@ -104,6 +103,8 @@ fun HomeScreen(
                 else -> {
                     ProductGrid(
                         products = filteredProducts,
+                        favorites = favorites,
+                        onFavoriteClick = fvm::toggleFavourite,
                         modifier = Modifier.weight(1f)
                     )
 

@@ -1,14 +1,12 @@
-package com.imthiyas.shopease.ui.screens.home
+package com.imthiyas.shopease.ui.vm
 
-import androidx.compose.ui.graphics.Path.Companion.combine
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.imthiyas.shopease.data.remote.models.Product
 import com.imthiyas.shopease.data.repository.ProductRepository
+import com.imthiyas.shopease.ui.screens.home.HomeUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.scopes.ViewModelScoped
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
