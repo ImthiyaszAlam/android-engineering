@@ -1,5 +1,6 @@
 package com.imthiyas.shopease.ui.screens.home
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,6 +13,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -66,6 +68,7 @@ fun HomeScreen(
                 .padding(paddingValues)
         ) {
 
+
             SearchBar(
                 query = uiState.searchQuery,
                 onQueryChange = { viewModel.onSearchQueryChange(it) }
@@ -86,57 +89,69 @@ fun HomeScreen(
             )
 
 
+            PullToRefreshBox(
+                isRefreshing = uiState.isRefreshing,
+                onRefresh = viewModel::refreshProducts,
+                modifier = Modifier.weight(1f)
+            ) {
 
-            when {
 
-                uiState.isLoading -> {
-                    CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
-                }
 
-                uiState.error != null -> {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
+                when {
 
-                        Text(text = uiState.error!!)
-
-                        Button(onClick = viewModel::retry) {
-                            Text(text = "Retry")
+                    uiState.isLoading -> {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            CircularProgressIndicator()
                         }
                     }
 
-                }
+                    uiState.error != null -> {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
 
-                filteredProducts.isEmpty() -> {
-                    Text(
-                        text = "No Products Found !",
-                        style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier.padding(16.dp),
-                        textAlign = TextAlign.Center
-                    )
-                }
+                            Text(text = uiState.error!!)
 
-                else -> {
-                    ProductGrid(
-                        products = filteredProducts,
-                        favorites = favorites,
-                        onFavoriteClick = fvm::toggleFavourite,
-                        onAddToCart = { pId ->
-                            cvm.addToCart(pId)
-                            scope.launch {
-                                snackbarHostState.showSnackbar("Added o cart!")
+                            Button(onClick = viewModel::retry) {
+                                Text(text = "Retry")
                             }
+                        }
 
-                        },
-                        modifier = Modifier.weight(1f)
-                    )
+                    }
 
+                    filteredProducts.isEmpty() -> {
+                        Text(
+                            text = "No Products Found !",
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.padding(16.dp),
+                            textAlign = TextAlign.Center
+                        )
+                    }
+
+                    else -> {
+                        ProductGrid(
+                            products = filteredProducts,
+                            favorites = favorites,
+                            onFavoriteClick = fvm::toggleFavourite,
+                            onAddToCart = { pId ->
+                                cvm.addToCart(pId)
+                                scope.launch {
+                                    snackbarHostState.showSnackbar("Added o cart!")
+                                }
+
+                            }
+                        )
+
+                    }
                 }
-            }
 
+            }
         }
 
     }

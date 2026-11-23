@@ -110,6 +110,48 @@ class HomeViewModel @Inject constructor(
         searchQuery.value = query
     }
 
+
+    fun onCategorySelected(category: String) {
+        savedStateHandle["selectedCategory"] = category
+        _uiState.update {
+            it.copy(
+                selectedCategory = category
+            )
+        }
+
+    }
+
+    fun refreshProducts() {
+        viewModelScope.launch {
+            _uiState.update {
+                it.copy(isRefreshing = true)
+            }
+
+            try {
+                val products = repository.getProducts()
+                val categories = repository.getCategories()
+
+                _uiState.update {
+                    it.copy(
+                        products = products,
+                        categories = categories,
+                        isRefreshing = false
+                    )
+                }
+
+            } catch (e: Exception) {
+                _uiState.update {
+                    it.copy(
+                        isRefreshing = false,
+                        error = e.message ?: "Something went wrong !"
+                    )
+                }
+            }
+
+
+        }
+    }
+
     fun getFilteredProducts(): List<Product> {
         val state = _uiState.value
 
@@ -127,15 +169,6 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun onCategorySelected(category: String) {
-        savedStateHandle["selectedCategory"] = category
-        _uiState.update {
-            it.copy(
-                selectedCategory = category
-            )
-        }
-
-    }
 
     fun loadProducts() {
         viewModelScope.launch() {

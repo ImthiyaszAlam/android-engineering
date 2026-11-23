@@ -9,5 +9,6 @@ data class HomeUiState(
     val categories: List<Category> = emptyList(),
     val searchQuery: String = "",
     val selectedCategory: String = "all",
-    val error: String? = null
+    val error: String? = null,
+    val isRefreshing: Boolean = false
 )
