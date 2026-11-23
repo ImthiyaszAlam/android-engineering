@@ -15,6 +15,7 @@ fun ProductGrid(
     products: List<Product>,
     favorites: Set<Int>,
     onFavoriteClick: (Int) -> Unit,
+    onAddToCart: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyVerticalGrid(
@@ -30,7 +31,8 @@ fun ProductGrid(
                 isFavorite = product.id in favorites,
                 onFavoriteClick = {
                     onFavoriteClick(product.id)
-                })
+                },
+                onAddToCart = { onAddToCart(product.id) })
         }
     }
 

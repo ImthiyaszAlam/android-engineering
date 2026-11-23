@@ -8,6 +8,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -25,7 +26,8 @@ import org.jetbrains.annotations.Async
 fun ProductCard(
     product: Product,
     isFavorite: Boolean,
-    onFavoriteClick: () -> Unit
+    onFavoriteClick: () -> Unit,
+    onAddToCart: () -> Unit
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -54,6 +56,10 @@ fun ProductCard(
                 text = "${product.price}% OFF",
                 color = Color(0xFF2E7D32)
             )
+
+            Button(onClick = onAddToCart, modifier = Modifier.fillMaxWidth()) {
+                Text(text = "Add")
+            }
 
             Text(
                 text = "${product.discountPercentage}% OFF",
