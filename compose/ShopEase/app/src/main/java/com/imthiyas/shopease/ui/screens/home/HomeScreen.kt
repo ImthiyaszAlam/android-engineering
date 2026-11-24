@@ -28,6 +28,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.imthiyas.shopease.ui.screens.components.CategorySection
 import com.imthiyas.shopease.ui.screens.components.DealBanner
+import com.imthiyas.shopease.ui.screens.components.DealBannerPager
 import com.imthiyas.shopease.ui.screens.components.HomeHeader
 import com.imthiyas.shopease.ui.screens.components.ProductGrid
 import com.imthiyas.shopease.ui.screens.components.SearchBar
@@ -74,13 +75,11 @@ fun HomeScreen(
                 onQueryChange = { viewModel.onSearchQueryChange(it) }
             )
 
-            val bestDeal = uiState.products.maxByOrNull {
-                it.discountPercentage
-            }
-
-            bestDeal?.let {
-                DealBanner(product = it)
-            }
+            DealBannerPager(
+                products = uiState.products
+                    .sortedByDescending { it.discountPercentage }
+                    .take(5)
+            )
 
             CategorySection(
                 categories = uiState.categories,
@@ -94,7 +93,6 @@ fun HomeScreen(
                 onRefresh = viewModel::refreshProducts,
                 modifier = Modifier.weight(1f)
             ) {
-
 
 
                 when {
