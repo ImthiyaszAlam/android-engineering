@@ -17,7 +17,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.devexplorer"
+        applicationId = "com.imthiyas.devexplorer"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
