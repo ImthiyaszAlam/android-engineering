@@ -21,7 +21,7 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(retrofit: Retrofit): Retrofit {
+    fun provideRetrofit(): Retrofit {
         return Retrofit.Builder()
             .baseUrl("https://api.github.com/")
             .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))

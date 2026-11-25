@@ -7,16 +7,16 @@ import retrofit2.http.Query
 
 interface GithubApiService {
 
-    @GET("/search/users/")
+    @GET("search/users")
     suspend fun searchUser(
         @Query("q") query: String = "all",
         @Query("page") page: Int = 1,
         @Query("per_page") perPage: Int = 20,
-    ): GitHubUserDto
+    ): SearchUserResponse
 
-    @GET("/users/")
+    @GET("users/")
     suspend fun getUserProfile()
 
-    @GET("/users/{username}/repos")
+    @GET("users/{username}/repos")
     suspend fun getUserRepo()
 }

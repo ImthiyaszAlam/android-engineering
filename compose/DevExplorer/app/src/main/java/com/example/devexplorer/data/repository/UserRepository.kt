@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class UserRepository @Inject constructor(private val apiService: GithubApiService) {
 
-    suspend fun searchUser(query: String): GitHubUserDto {
+    suspend fun searchUser(query: String): SearchUserResponse {
         return apiService.searchUser(query)
     }
 

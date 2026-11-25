@@ -4,19 +4,25 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.devexplorer.data.repository.UserRepository
 import com.example.devexplorer.ui.UserUiState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class UserViewModel @Inject constructor(private val userRepository: UserRepository) : ViewModel() {
 
     private val _uiState = MutableStateFlow(UserUiState())
     val uiState: StateFlow<UserUiState> = _uiState.asStateFlow()
 
 
-    fun searchUser(query: String) {
+    init {
+        searchUser()
+    }
+
+    fun searchUser(query: String = "all") {
         viewModelScope.launch {
 
             _uiState.value = UserUiState(isLoading = true)
@@ -24,7 +30,7 @@ class UserViewModel @Inject constructor(private val userRepository: UserReposito
             try {
 
                 val users = userRepository.searchUser(query)
-                _uiState.value = UserUiState(users = users)
+                _uiState.value = UserUiState(users = users.items)
             } catch (e: Exception) {
                 _uiState.value =
                     UserUiState(isLoading = false, error = e.message ?: "Something went wrong!")
