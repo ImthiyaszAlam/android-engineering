@@ -3,11 +3,14 @@ package com.example.devexplorer.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.devexplorer.data.repository.UserRepository
-import com.example.devexplorer.ui.UserUiState
+import com.example.devexplorer.ui.state.UserUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,6 +19,7 @@ class UserViewModel @Inject constructor(private val userRepository: UserReposito
 
     private val _uiState = MutableStateFlow(UserUiState())
     val uiState: StateFlow<UserUiState> = _uiState.asStateFlow()
+    private var searchJob: Job? = null
 
 
     init {
@@ -23,9 +27,25 @@ class UserViewModel @Inject constructor(private val userRepository: UserReposito
     }
 
     fun searchUser(query: String = "all") {
-        viewModelScope.launch {
+        searchJob?.cancel()
+
+        searchJob = viewModelScope.launch {
 
             _uiState.value = UserUiState(isLoading = true)
+            _uiState.update {
+                it.copy(query = query)
+            }
+            delay(400)
+
+            if (query.isBlank()) {
+                _uiState.update {
+                    it.copy(
+                        isLoading = false,
+                        users = emptyList(),
+                        error = null
+                    )
+                }
+            }
 
             try {
 
