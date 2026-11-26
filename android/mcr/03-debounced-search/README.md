@@ -1,0 +1,54 @@
+# Debounced Search
+
+## Interview prompt
+
+Search an API as the user types, without issuing a request for every keystroke.
+
+## Expected behavior
+
+- Clarify the required screens and user flow before coding.
+- Implement the main happy path.
+- Show loading, empty, success, and error states where relevant.
+- Provide retry or recovery actions for failures.
+- Keep UI responsive and state consistent.
+
+## Suggested Android implementation
+
+- **Core skills:** StateFlow, debounce, distinctUntilChanged, flatMapLatest, Retrofit.
+- Compose UI renders state; it should not own networking or business rules.
+- ViewModel exposes immutable UI state using StateFlow.
+- Repository coordinates data sources when that boundary is useful.
+- Use lifecycle-aware state collection and stable keys in lazy lists.
+- Avoid adding architecture layers that do not solve a real requirement.
+
+## Edge cases and trade-offs
+
+Cancel old searches; handle blank queries, rapid typing, slow responses, errors, and repeated queries.
+
+## Testing checklist
+
+- [ ] Main success flow
+- [ ] Loading, empty, and error states
+- [ ] Invalid or missing input/data
+- [ ] Retry/cancellation behavior
+- [ ] ViewModel or business-logic unit tests
+- [ ] Important Compose UI interactions
+
+## Interview walkthrough
+
+1. Clarify functional requirements and constraints.
+2. Sketch the UI and define the state model.
+3. Explain the data flow: Compose → ViewModel → Repository → data source.
+4. Implement the core flow first.
+5. Add failure handling and edge cases.
+6. Test core logic and explain alternatives/trade-offs.
+
+## Completion checklist
+
+- [ ] App builds and runs
+- [ ] Main user flow works
+- [ ] State is handled correctly across recomposition/configuration changes
+- [ ] No blocking work on the main thread
+- [ ] Edge cases are addressed
+- [ ] Tests cover core logic
+- [ ] README documents setup and implementation decisions
